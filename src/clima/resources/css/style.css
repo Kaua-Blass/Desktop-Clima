@@ -1,3 +1,18 @@
 .background {
     -fx-background-color: linear-gradient(to bottom, #1E4D6E, #3C7094);
 }
+
+.root {
+    -fx-font-size: calc(13px + 0.5vw);
+}
+
+Label, Button, TextField {
+    -fx-font-size: calc(13px + 0.5vw);
+}
+
+/* textfield bonitinho */
+TextField {
+    -fx-background-radius: 12;
+    -fx-background-color: rgba(255,255,255,0.2);
+    -fx-text-fill: white;
+}

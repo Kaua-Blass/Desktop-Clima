@@ -1,20 +1,21 @@
 package clima;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import java.io.InputStreamReader;
-import java.net.URLEncoder;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform; // Import necessário para JavaFX threads
+
+// Importa a nova classe de serviço e a classe interna de dados
+import clima.OpenMeteoService.DadosClima; 
 
 public class FXMLDocumentController implements Initializable {
+
+    // Instância do serviço de backend
+    private final OpenMeteoService meteoService = new OpenMeteoService();
 
     @FXML
     private TextField txtCidade;
@@ -26,82 +27,56 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) {
         String cidade = txtCidade.getText();
-        buscarLocalizacao(cidade);
-    }
+        
+        // Limpa e informa o status de busca (Thread do JavaFX)
+        Platform.runLater(() -> {
+            lblWeatherCode.setText("Buscando dados...");
+            lblTime.setText("");
+            lblTemperature.setText("");
+            lblWindSpeed.setText("");
+            lblWindDirection.setText("");
+            lblIsDay.setText("");
+        });
 
-    private void buscarLocalizacao(String cidade) {
-        try {
-            String cidadeEncode = URLEncoder.encode(cidade, StandardCharsets.UTF_8.toString());
+        // Executa a chamada de API (demorada) em uma nova Thread
+        new Thread(() -> {
+            try {
+                // 1. Chama o serviço de backend
+                DadosClima dados = meteoService.buscarClimaPorCidade(cidade);
+                
+                // 2. Atualiza a interface (de volta na Thread do JavaFX)
+                Platform.runLater(() -> {
+                    // Adicionamos um espaço para o valor não colar no rótulo estático do FXML
+                    lblTime.setText(" " + dados.tempo); 
+                    lblTemperature.setText(" " + dados.temperatura + " °C");
+                    lblWindSpeed.setText(" " + dados.velocidadeVento + " km/h");
+                    lblWindDirection.setText(" " + dados.direcaoVento + "°");
+                    
+                    // Este label (lblIsDay) não tem rótulo no seu FXML, mas é mantido no código
+                    lblIsDay.setText(" " + dados.diaOuNoite); 
+                    
+                    // Condição (lblWeatherCode) - Recebe o nome do clima
+                    lblWeatherCode.setText(" " + dados.codigoClima);
+                });
 
-            URL url = new URL(
-                "https://geocoding-api.open-meteo.com/v1/search?name=" + cidadeEncode
-            );
-
-            JsonObject json = JsonParser.parseReader(new InputStreamReader(url.openStream())).getAsJsonObject();
-            JsonArray results = json.getAsJsonArray("results");
-
-            if (results == null || results.size() == 0){
-                lblWeatherCode.setText("Cidade não encontrada!");
-                return;
+            } catch (Exception e) {
+                // 3. Em caso de erro, atualiza a interface com a mensagem
+                Platform.runLater(() -> {
+                    // Exibe a mensagem de erro no campo Condição (lblWeatherCode)
+                    lblWeatherCode.setText(" Erro: " + e.getMessage()); 
+                    
+                    // Limpar outros labels
+                    lblTime.setText("");
+                    lblTemperature.setText("");
+                    lblWindSpeed.setText("");
+                    lblWindDirection.setText("");
+                    lblIsDay.setText("");
+                });
+                System.err.println("Erro na busca: " + e.getMessage());
             }
-
-            JsonObject loc = results.get(0).getAsJsonObject();
-
-            double lat = loc.get("latitude").getAsDouble();
-            double lon = loc.get("longitude").getAsDouble();
-
-            buscarClima(lat, lon);
-
-        } catch (Exception e) {
-            lblWeatherCode.setText("Erro ao buscar cidade");
-        }
+        }).start(); // Inicia a nova thread
     }
-
-    private void buscarClima(double lat, double lon){
-        try {
-            URL url = new URL(
-                "https://api.open-meteo.com/v1/forecast?latitude=" + lat +
-                        "&longitude=" + lon + "&current_weather=true"
-            );
-
-            JsonObject json = JsonParser.parseReader(new InputStreamReader(url.openStream())).getAsJsonObject();
-            JsonObject current = json.getAsJsonObject("current_weather");
-
-            lblTime.setText(current.get("time").getAsString());
-            lblTemperature.setText(current.get("temperature").getAsDouble() + " °C");
-            lblWindSpeed.setText(current.get("windspeed").getAsDouble() + " km/h");
-            lblWindDirection.setText(current.get("winddirection").getAsDouble() + "°");
-
-            lblIsDay.setText(current.get("is_day").getAsInt() == 1 ? "Dia" : "Noite");
-            lblWeatherCode.setText(converterWeatherCode(current.get("weathercode").getAsInt()));
-
-        } catch (Exception e) {
-            lblWeatherCode.setText("Erro obtendo clima");
-        }
-    }
-
-    private String converterWeatherCode(int code){
-        switch(code){
-            case 0: return "Céu limpo";
-            case 1:
-            case 2:
-            case 3: return "Parcialmente nublado";
-            case 45:
-            case 48: return "Neblina";
-            case 51:
-            case 53:
-            case 55: return "Garoa";
-            case 61:
-            case 63:
-            case 65: return "Chuva";
-            case 80:
-            case 81:
-            case 82: return "Pancadas de chuva";
-            case 95: return "Tempestade";
-            default: return "Desconhecido";
-        }
-    }
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {}
 }
