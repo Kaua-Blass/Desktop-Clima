@@ -29,12 +29,12 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
          <children>
-            <TextField fx:id="fieldCidade" prefHeight="25.0" prefWidth="150.0" promptText="Cidade" style="-fx-background-color: #3a7bd5; -fx-background-radius: 10; -fx-border-color: #3a7bd9; -fx-border-radius: 10;">
+            <TextField fx:id="txtCidade" prefHeight="25.0" prefWidth="150.0" promptText="Cidade" style="-fx-background-color: #3a7bd5; -fx-background-radius: 10; -fx-border-color: #3a7bd9; -fx-border-radius: 10;">
                <font>
                   <Font name="Segoe UI" size="12.0" />
                </font>
             </TextField>
-            <Button fx:id="buscarCidade" mnemonicParsing="false" style="-fx-background-color: #3a7bd5; -fx-background-radius: 10;" text="Buscar" textFill="WHITE" />
+            <Button fx:id="handleButtonAction" mnemonicParsing="false" style="-fx-background-color: #3a7bd5; -fx-background-radius: 10;" text="Buscar" textFill="WHITE" />
          </children>
       </HBox>
       <VBox alignment="CENTER" prefHeight="0.0" prefWidth="494.0" spacing="5.0">
@@ -46,7 +46,7 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblHorario" textFill="WHITE">
+                  <Label fx:id="lblTime" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -60,7 +60,7 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblTemperatura" textFill="#f8f8f8">
+                  <Label fx:id="lblTemperature" textFill="#f8f8f8">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -74,7 +74,7 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblVelVento" textFill="WHITE">
+                  <Label fx:id="lblWindSpeed" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -88,7 +88,7 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="llblCondicao" textFill="WHITE">
+                  <Label fx:id="lblWeatherCode" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -102,7 +102,7 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblDirVento" textFill="WHITE">
+                  <Label fx:id="lblWindDirection" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
