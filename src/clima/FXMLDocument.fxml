@@ -125,6 +125,11 @@
             </HBox>
          </children>
       </VBox>
+         <HBox alignment="CENTER" prefHeight="60.0" prefWidth="400.0">
+            <children>
+               <Label fx:id="lblStatus" textFill="WHITE" styleClass="status-label" textAlignment="CENTER" wrapText="true" maxWidth="Infinity" />
+            </children>
+         </HBox>
    </children>
    <padding>
       <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

@@ -10,7 +10,6 @@ import java.nio.charset.StandardCharsets;
 
 public class OpenMeteoService {
 
-    // Classe interna para retornar os dados do clima de forma organizada
     public static class DadosClima {
         public String tempo;
         public double temperatura;
@@ -30,10 +29,6 @@ public class OpenMeteoService {
         }
     }
 
-    /**
-     * Busca as coordenadas geográficas de uma cidade e, em seguida,
-     * busca os dados do clima para essas coordenadas.
-     */
     public DadosClima buscarClimaPorCidade(String cidade) throws Exception {
         double[] coordenadas = buscarCoordenadas(cidade);
 
@@ -55,7 +50,7 @@ public class OpenMeteoService {
         JsonArray results = json.getAsJsonArray("results");
 
         if (results == null || results.size() == 0){
-            return null; // Cidade não encontrada
+            return null;
         }
 
         JsonObject loc = results.get(0).getAsJsonObject();
