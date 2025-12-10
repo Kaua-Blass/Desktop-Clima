@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -10,8 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox fx:controller="clima.FXMLDocumentController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" styleClass="background" stylesheets="@resources/css/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" styleClass="background" stylesheets="@resources/css/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clima.FXMLDocumentController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -20,114 +20,94 @@
                   <Image url="@resources/images/logo.png" />
                </image>
             </ImageView>
-            <Label contentDisplay="CENTER" text="ClimaApp" textAlignment="CENTER" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
+            <Label contentDisplay="CENTER" styleClass="title-label" text="ClimaApp" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="Segoe UI Bold" size="20.0" />
-               </font>
-            </Label>
+                  <Font name="Arial Black" size="16.0" />
+               </font></Label>
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
          <children>
-            <TextField fx:id="txtCidade" prefHeight="25.0" prefWidth="150.0" promptText="Cidade" style="-fx-background-color: #3a7bd5; -fx-background-radius: 10; -fx-border-color: #3a7bd9; -fx-border-radius: 10;">
+            <TextField fx:id="txtCidade" prefHeight="25.0" prefWidth="150.0" promptText="Cidade" style="-fx-background-color: #1E4D6E; -fx-background-radius: 10; -fx-border-color: #3C7094; -fx-border-radius: 10;" styleClass="input-field" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="29.0" prefWidth="56.0" style="-fx-background-color: #3C7094; -fx-background-radius: 30; -fx-border-color: #1E4D6E; -fx-border-radius: 10;" styleClass="btn-search" text="Buscar" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="Segoe UI" size="12.0" />
-               </font>
-            </TextField>
-            <Button fx:id="btnBuscar" onAction="#handleButtonAction" mnemonicParsing="false" style="-fx-background-color: #3a7bd5; -fx-background-radius: 10;" text="Buscar" textFill="WHITE" />
+                  <Font name="Arial" size="12.0" />
+               </font></Button>
          </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </HBox>
-      <VBox alignment="CENTER" prefHeight="0.0" prefWidth="494.0" spacing="5.0">
+      <VBox alignment="CENTER" prefHeight="0.0" prefWidth="494.0" spacing="10.0" styleClass="data-panel" VBox.vgrow="ALWAYS">
          <children>
-            <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" spacing="15.0">
                <children>
-                  <Label nodeOrientation="LEFT_TO_RIGHT" prefHeight="18.0" prefWidth="50.0" text="Horário:" textFill="WHITE">
+                  <Label styleClass="label-key" text="Horário:" textFill="WHITE">
                      <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblTime" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </Label>
+                        <Font name="Arial Black" size="12.0" />
+                     </font></Label>
+                  <Label fx:id="lblTime" styleClass="label-value" textFill="WHITE" />
                </children>
+               <padding>
+                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+               </padding>
             </HBox>
-            <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" spacing="15.0">
                <children>
-                  <Label nodeOrientation="LEFT_TO_RIGHT" prefHeight="18.0" prefWidth="82.0" text="Temperatura:" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblTemperature" textFill="#f8f8f8">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </Label>
+                  <Label styleClass="label-key" text="Temperatura:" textFill="WHITE" />
+                  <Label fx:id="lblTemperature" styleClass="label-value" textFill="WHITE" />
                </children>
+               <padding>
+                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+               </padding>
             </HBox>
-            <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" spacing="15.0">
                <children>
-                  <Label nodeOrientation="LEFT_TO_RIGHT" prefHeight="18.0" prefWidth="131.0" text="Velocidade do vento:" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblWindSpeed" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </Label>
+                  <Label styleClass="label-key" text="Velocidade vento:" textFill="WHITE" />
+                  <Label fx:id="lblWindSpeed" styleClass="label-value" textFill="WHITE" />
                </children>
+               <padding>
+                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+               </padding>
             </HBox>
-            <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" spacing="15.0">
                <children>
-                  <Label nodeOrientation="LEFT_TO_RIGHT" text="Condição:" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblWeatherCode" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </Label>
+                  <Label styleClass="label-key" text="Condição:" textFill="WHITE" />
+                  <Label fx:id="lblWeatherCode" styleClass="label-value" textFill="WHITE" />
                </children>
+               <padding>
+                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+               </padding>
             </HBox>
-            <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" spacing="15.0">
                <children>
-                  <Label nodeOrientation="LEFT_TO_RIGHT" prefHeight="18.0" prefWidth="110.0" text="Dia/Noite:" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblIsDay" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </Label>
+                  <Label styleClass="label-key" text="Dia/Noite:" textFill="WHITE" />
+                  <Label fx:id="lblIsDay" styleClass="label-value" textFill="WHITE" />
                </children>
+               <padding>
+                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+               </padding>
             </HBox>
-            <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" spacing="15.0">
                <children>
-                  <Label nodeOrientation="LEFT_TO_RIGHT" prefHeight="18.0" prefWidth="110.0" text="Direção do vento:" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblWindDirection" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </Label>
+                  <Label styleClass="label-key" text="Direção vento:" textFill="WHITE" />
+                  <Label fx:id="lblWindDirection" styleClass="label-value" textFill="WHITE" />
                </children>
+               <padding>
+                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+               </padding>
             </HBox>
          </children>
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
       </VBox>
          <HBox alignment="CENTER" prefHeight="60.0" prefWidth="400.0">
             <children>
-               <Label fx:id="lblStatus" textFill="WHITE" styleClass="status-label" textAlignment="CENTER" wrapText="true" maxWidth="Infinity" />
+               <Label fx:id="lblStatus" maxWidth="Infinity" styleClass="status-label" textAlignment="CENTER" textFill="WHITE" wrapText="true" HBox.hgrow="ALWAYS" />
             </children>
          </HBox>
    </children>
