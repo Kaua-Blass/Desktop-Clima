@@ -12,15 +12,18 @@ public class OpenMeteoService {
 
     public static class DadosClima {
         public String tempo;
+        public String horarioAtual;
         public double temperatura;
         public double velocidadeVento;
         public double direcaoVento;
         public String diaOuNoite;
         public String codigoClima;
 
-        public DadosClima(String tempo, double temperatura, double velocidadeVento,
-                          double direcaoVento, String diaOuNoite, String codigoClima) {
+        public DadosClima(String tempo, String horarioAtual, double temperatura,
+                          double velocidadeVento, double direcaoVento,
+                          String diaOuNoite, String codigoClima) {
             this.tempo = tempo;
+            this.horarioAtual = horarioAtual;
             this.temperatura = temperatura;
             this.velocidadeVento = velocidadeVento;
             this.direcaoVento = direcaoVento;
@@ -31,53 +34,48 @@ public class OpenMeteoService {
 
     public DadosClima buscarClimaPorCidade(String cidade) throws Exception {
         double[] coordenadas = buscarCoordenadas(cidade);
-
         if (coordenadas == null) {
             throw new Exception("Cidade não encontrada!");
         }
-
         return buscarClima(coordenadas[0], coordenadas[1]);
     }
 
     private double[] buscarCoordenadas(String cidade) throws Exception {
         String cidadeEncode = URLEncoder.encode(cidade, StandardCharsets.UTF_8.toString());
-
-        URL url = new URL(
-            "https://geocoding-api.open-meteo.com/v1/search?name=" + cidadeEncode
-        );
-
+        URL url = new URL("https://geocoding-api.open-meteo.com/v1/search?name=" + cidadeEncode);
         JsonObject json = JsonParser.parseReader(new InputStreamReader(url.openStream())).getAsJsonObject();
         JsonArray results = json.getAsJsonArray("results");
-
-        if (results == null || results.size() == 0){
+        if (results == null || results.size() == 0) {
             return null;
         }
-
         JsonObject loc = results.get(0).getAsJsonObject();
-
         double lat = loc.get("latitude").getAsDouble();
         double lon = loc.get("longitude").getAsDouble();
-
         return new double[]{lat, lon};
     }
 
     private DadosClima buscarClima(double lat, double lon) throws Exception {
-        URL url = new URL(
-            "https://api.open-meteo.com/v1/forecast?latitude=" + lat +
-            "&longitude=" + lon + "&current_weather=true"
-        );
+        URL url = new URL("https://api.open-meteo.com/v1/forecast?latitude=" + lat +
+                "&longitude=" + lon + "&current_weather=true");
 
         JsonObject json = JsonParser.parseReader(new InputStreamReader(url.openStream())).getAsJsonObject();
         JsonObject current = json.getAsJsonObject("current_weather");
 
         String tempo = current.get("time").getAsString();
+
+        java.time.ZonedDateTime agora = java.time.ZonedDateTime.now(
+                java.time.ZoneId.of("America/Sao_Paulo")
+        ).minusHours(1);
+        String horarioAtual = agora.format(java.time.format.DateTimeFormatter.ofPattern("HH:mm - dd/MM/yyyy"));
+
         double temperatura = current.get("temperature").getAsDouble();
         double velocidadeVento = current.get("windspeed").getAsDouble();
         double direcaoVento = current.get("winddirection").getAsDouble();
         String diaOuNoite = current.get("is_day").getAsInt() == 1 ? "Dia" : "Noite";
         String codigoClima = converterWeatherCode(current.get("weathercode").getAsInt());
 
-        return new DadosClima(tempo, temperatura, velocidadeVento, direcaoVento, diaOuNoite, codigoClima);
+        return new DadosClima(tempo, horarioAtual, temperatura, velocidadeVento,
+                direcaoVento, diaOuNoite, codigoClima);
     }
 
     private String converterWeatherCode(int code){

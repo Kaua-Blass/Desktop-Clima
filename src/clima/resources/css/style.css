@@ -37,40 +37,47 @@ Label {
 }
 
 .input-field {
-    -fx-background-color: #3B7BD5;
+    -fx-background-color: #2A5E8F;
     -fx-text-fill: white;
-    -fx-background-radius: 10;
-    -fx-border-radius: 10;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-width: 2;
+    -fx-border-color: #1E4D6E;
     -fx-padding: 12 20 12 20;
     -fx-font-size: calc(14px + 0.5vw);
     -fx-font-weight: bold;
-    -fx-prompt-text-fill: rgba(255, 255, 255, 0.7);
+    -fx-prompt-text-fill: rgba(255, 255, 255, 0.8);
     -fx-font-family: "Segoe UI", "-apple-system", "BlinkMacSystemFont", sans-serif;
 }
 
 .input-field:focused {
-    -fx-background-color: #2D6CC8;
+    -fx-background-color: #3A6F9E;
     -fx-border-color: #ffffff;
-    -fx-border-width: 1;
+    -fx-border-width: 2;
 }
 
 .btn-search {
     -fx-font-size: calc(14px + 0.5vw);
     -fx-text-fill: white;
-    -fx-background-color: #4A8FD4;
-    -fx-background-radius: 10;
-    -fx-padding: 12 40 12 40;
+    -fx-background-color: linear-gradient(to bottom, #3A7BA6, #2A5E8F);
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-width: 2;
+    -fx-border-color: #1E4D6E;
+    -fx-padding: 15 40 15 40;
     -fx-cursor: hand;
     -fx-font-weight: bold;
     -fx-font-family: "Segoe UI", "-apple-system", "BlinkMacSystemFont", sans-serif;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .btn-search:hover {
-    -fx-background-color: #5A9FE4;
+    -fx-background-color: linear-gradient(to bottom, #4A8BB6, #3A7BA6);
 }
 
 .btn-search:pressed {
-    -fx-background-color: #2D6CB8;
+    -fx-background-color: linear-gradient(to bottom, #1E4D6E, #153A52);
 }
 
 .status-label {

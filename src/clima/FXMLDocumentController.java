@@ -59,7 +59,7 @@ public class FXMLDocumentController implements Initializable {
                 DadosClima dados = meteoService.buscarClimaPorCidade(cidade);
 
                 Platform.runLater(() -> {
-                    lblTime.setText(" " + dados.tempo);
+                    lblTime.setText(" " + dados.horarioAtual);
                     lblTemperature.setText(" " + dados.temperatura + " °C");
                     lblWindSpeed.setText(" " + dados.velocidadeVento + " km/h");
                     lblWindDirection.setText(" " + dados.direcaoVento + "°");
